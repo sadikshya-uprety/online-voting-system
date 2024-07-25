@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Election Results Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="/html-css course/online voling sysrem/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a69bd;
+            --secondary-color: #1e3799;
+            --background-color: #f1f2f6;
+            --text-color: #2c3e50;
+            --border-color: #dcdde1;
+            --winner-color: #44bd32;
+            --runner-up-color: #e1b12c;
+            --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 3rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .results-card {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .results-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .results-card h2 {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .candidates {
+            padding: 2rem;
+        }
+
+        .candidate {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .winner {
+            background-color: rgba(68, 189, 50, 0.1);
+            border-left: 6px solid var(--winner-color);
+        }
+
+        .runner-up {
+            background-color: rgba(225, 177, 44, 0.1);
+            border-left: 6px solid var(--runner-up-color);
+        }
+
+        .candidate-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 1.5rem;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .candidate-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .candidate-info {
+            flex: 1;
+        }
+
+        .candidate h3 {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .candidate h3 i {
+            margin-right: 0.8rem;
+            font-size: 1.6rem;
+        }
+
+        .votes {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            margin-top: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .votes i {
+            margin-right: 0.8rem;
+            color: var(--secondary-color);
+        }
+
+        .progress-bar {
+            height: 12px;
+            background-color: #e0e0e0;
+            border-radius: 6px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 0.5s ease;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        button {
+            padding: 14px 28px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button i {
+            margin-right: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        #pollStatus {
+            text-align: center;
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+        }
+
+        .file-upload {
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .file-upload input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-upload label {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .file-upload label:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .file-upload label.hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .candidate {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .candidate-photo {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-poll"></i> Election Results Dashboard</h1>
+    </header>
+
+    <div class="container">
+        <div id="pollStatus"></div>
+        <div class="results-grid" id="resultsGrid">
+            <!-- Results will be dynamically inserted here -->
+        </div>
+
+        <div class="buttons">
+            <button onclick="startVoting()"><i class="fas fa-play"></i> Start Voting</button>
+            <button onclick="resetVotes()"><i class="fas fa-redo"></i> Reset Votes</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Election Results Dashboard. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Simulated election data
+        let electionData = {
+            "President": [
+                { name: "Riya Gurung", votes: 0, photo: null },
+                { name: "Babita Kafle", votes: 0, photo: null }
+            ],
+            "Vice President": [
+                { name: "Riju Thapa", votes: 0, photo: null },
+                { name: "Ujwal Adhikari", votes: 0, photo: null }
+            ],
+            "Board Member": [
+                { name: "Nitu Sharma", votes: 0, photo: null },
+                { name: "Pratikshya Bhattarai", votes: 0, photo: null }
+            ]
+        };
+
+        let totalVoters = 100;
+        let votesRemaining = totalVoters;
+        let votingInterval;
+
+        function updateResults() {
+            const resultsGrid = document.getElementById('resultsGrid');
+            resultsGrid.innerHTML = '';
+
+            for (const [position, candidates] of Object.entries(electionData)) {
+                candidates.sort((a, b) => b.votes - a.votes);
+                const totalVotes = candidates.reduce((sum, candidate) => sum + candidate.votes, 0);
+
+                let resultsHtml = `
+                    <div class="results-card">
+                        <h2>${position}</h2>
+                        <div class="candidates">
+                `;
+
+                candidates.forEach((candidate, index) => {
+                    const isWinner = index === 0;
+                    const percentage = totalVotes > 0 ? (candidate.votes / totalVotes * 100).toFixed(1) : 0;
+                    resultsHtml += `
+                        <div class="candidate ${isWinner ? 'winner' : 'runner-up'}">
+                            <div class="candidate-photo">
+                                ${candidate.photo ? `<img src="${candidate.photo}" alt="${candidate.name}">` : '<i class="fas fa-user"></i>'}
+                            </div>
+                            <div class="candidate-info">
+                                <h3><i class="fas ${isWinner ? 'fa-trophy' : 'fa-medal'}"></i> ${isWinner ? 'Leading' : 'Runner-up'}</h3>
+                                <p>${candidate.name}</p>
+                                <p class="votes"><i class="fas fa-vote-yea"></i> Votes Received: ${candidate.votes}</p>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: ${percentage}%"></div>
+                                </div>
+                                <p>${percentage}% of total votes</p>
+                                <div class="file-upload">
+                                    <input type="file" id="photo-${position}-${index}" onchange="handlePhotoUpload('${position}', ${index}, event)" accept="image/*">
+                                    <label for="photo-${position}-${index}" ${candidate.photo ? 'class="hidden"' : ''}>
+                                        Upload Photo
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                resultsHtml += `
+                        </div>
+                    </div>
+                `;
+
+                resultsGrid.innerHTML += resultsHtml;
+            }
+        }
+
+        function handlePhotoUpload(position, index, event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    electionData[position][index].photo = e.target.result;
+                    updateResults();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function castVote() {
+            const positions = Object.keys(electionData);
+            const randomPosition = positions[Math.floor(Math.random() * positions.length)];
+            const randomCandidateIndex = Math.floor(Math.random() * electionData[randomPosition].length);
+            electionData[randomPosition][randomCandidateIndex].votes++;
+            votesRemaining--;
+
+            updateResults();
+            updatePollStatus();
+
+            if (votesRemaining === 0) {
+                clearInterval(votingInterval);
+                document.getElementById('pollStatus').innerHTML = "Voting complete! Final results displayed.";
+            }
+        }
+
+        function startVoting() {
+            if (votingInterval) clearInterval(votingInterval);
+            resetVotes();
+            votingInterval = setInterval(castVote, 100);
+        }
+
+        function resetVotes() {
+            for (const candidates of Object.values(electionData)) {
+                candidates.forEach(candidate => candidate.votes = 0);
+            }
+            votesRemaining = totalVoters;
+            updateResults();
+            updatePollStatus();
+        }
+
+        function updatePollStatus() {
+            const pollStatus = document.getElementById('pollStatus');
+            pollStatus.innerHTML = `Votes cast: ${totalVoters - votesRemaining} / ${totalVoters}`;
+        }
+
+        updateResults();
+        updatePollStatus();
+    </script>
+</body>
+</html>

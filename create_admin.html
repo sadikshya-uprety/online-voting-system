@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - SecureVote</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #f8f9fa;
+            --text-color: #202124;
+            --border-color: #dadce0;
+            --success-color: #0f9d58;
+            --danger-color: #d93025;
+            --hover-color: #174ea6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+
+        main {
+            padding: 3rem 0;
+        }
+
+        section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            font-size: 1.8rem;
+        }
+
+        form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="password"] {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(26,115,232,0.2);
+        }
+
+        input[type="file"] {
+            padding: 10px 0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        button, .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        button[type="submit"] {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        button[type="button"], .btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        button:hover, .btn:hover {
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+
+        #loginForm {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        #errorMessage {
+            color: var(--danger-color);
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        #adminPhotoPreview {
+            max-width: 200px;
+            max-height: 200px;
+            margin-top: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .button-group {
+                flex-direction: column;
+            }
+
+            button, .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>SecureVote Admin Panel</h1>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <section id="loginSection">
+                <h2>Admin Login</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginPassword">Password:</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+                <p id="errorMessage"></p>
+            </section>
+            <section id="adminSection" style="display: none;">
+                <h2>Admin Information</h2>
+                <form id="adminForm">
+                    <div class="form-group">
+                        <label for="productKey">Product Key:</label>
+                        <input type="text" id="productKey" name="productKey" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="companyName">Company Name:</label>
+                        <input type="text" id="companyName" name="companyName">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number:</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password:</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPhoto">Admin's Photograph:</label>
+                        <input type="file" id="adminPhoto" name="adminPhoto" accept="image/*">
+                        <img id="adminPhotoPreview" src="#" alt="Admin Photo Preview">
+                    </div>
+                    <div class="button-group">
+                        <button type="submit">Save</button>
+                        <a href="index.html" class="btn">Homepage</a>
+                        <a href="vote.html" class="btn">Next: Vote</a>
+                        <button type="button" class="btn-danger" id="deleteButton">Delete</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Confirm Deletion</h2>
+            <p>Are you sure you want to delete all admin data?</p>
+            <div class="button-group">
+                <button id="confirmDelete" class="btn-danger">Delete</button>
+                <button id="cancelDelete" class="btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const loginSection = document.getElementById('loginSection');
+        const adminSection = document.getElementById('adminSection');
+        const errorMessage = document.getElementById('errorMessage');
+        const adminForm = document.getElementById('adminForm');
+        const adminPhoto = document.getElementById('adminPhoto');
+        const adminPhotoPreview = document.getElementById('adminPhotoPreview');
+        const deleteButton = document.getElementById('deleteButton');
+        const deleteModal = document.getElementById('deleteModal');
+        const confirmDelete = document.getElementById('confirmDelete');
+        const cancelDelete = document.getElementById('cancelDelete');
+        const closeModal = document.getElementsByClassName('close')[0];
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('loginPassword').value;
+            if (password === 'admin123') {
+                loginSection.style.display = 'none';
+                adminSection.style.display = 'block';
+            } else {
+                errorMessage.textContent = 'Incorrect password. Please try again.';
+            }
+        });
+
+        adminForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(adminForm);
+            const adminData = Object.fromEntries(formData.entries());
+            
+            if (adminPhoto.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    adminData.adminPhotoUrl = event.target.result;
+                    saveAdminData(adminData);
+                };
+                reader.readAsDataURL(adminPhoto.files[0]);
+            } else {
+                saveAdminData(adminData);
+            }
+        });
+
+        function saveAdminData(adminData) {
+            localStorage.setItem('adminData', JSON.stringify(adminData));
+            alert('Admin data saved successfully!');
+        }
+
+        // Load saved admin data if available
+        const savedAdminData = localStorage.getItem('adminData');
+        if (savedAdminData) {
+            const adminData = JSON.parse(savedAdminData);
+            Object.keys(adminData).forEach(key => {
+                const input = document.getElementById(key);
+                if (input && input.type !== 'file') {
+                    input.value = adminData[key];
+                }
+            });
+            if (adminData.adminPhotoUrl) {
+                adminPhotoPreview.src = adminData.adminPhotoUrl;
+                adminPhotoPreview.style.display = 'block';
+            }
+        }
+
+        // Preview admin photo when selected
+        adminPhoto.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    adminPhotoPreview.src = event.target.result;
+                    adminPhotoPreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Delete functionality
+        deleteButton.onclick = function() {
+            deleteModal.style.display = 'block';
+        }
+
+        closeModal.onclick = function() {
+            deleteModal.style.display = 'none';
+        }
+
+        cancelDelete.onclick = function() {
+            deleteModal.style.display = 'none';
+        }
+
+        confirmDelete.onclick = function() {
+            localStorage.removeItem('adminData');
+            adminForm.reset();
+            adminPhotoPreview.src = '#';
+            adminPhotoPreview.style.display = 'none';
+            deleteModal.style.display = 'none';
+            alert('Admin data has been deleted.');
+        }
+
+        window.onclick = function(event) {
+            if (event.target == deleteModal) {
+                deleteModal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

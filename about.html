@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - SecureVote Online Voting System</title>
+    <link rel="icon" type="image/x-icon" href="/html-css course/online voling sysrem/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        main {
+            padding: 60px 0;
+        }
+
+        .about {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .about h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+
+        .about p {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            font-size: 18px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .about h3 {
+            font-size: 28px;
+            margin: 40px 0 20px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .team {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .member {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            max-width: 300px;
+            text-align: center; /* Center text within member */
+        }
+
+        .member:hover {
+            transform: translateY(-5px);
+        }
+
+        .member img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 2px solid var(--primary-color); /* Adding border below image */
+        }
+
+        .member-info {
+            padding: 20px;
+        }
+
+        .member h4 {
+            font-size: 22px;
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .member p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .social-links a {
+            color: var(--primary-color);
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .feature {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature i {
+            font-size: 48px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .feature h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .cta {
+            background-color: var(--primary-color);
+            color: #fff;
+            text-align: center;
+            padding: 60px 0;
+            margin-top: 60px;
+        }
+
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #fff;
+            color: var(--primary-color);
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-color);
+            color: #fff;
+        }
+
+        footer {
+            background-color: var(--secondary-color);
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        footer p {
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .team {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .member {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>SecureVote</h1>
+            <nav>
+                <ul>
+                    <li><a href="homepage.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="vote.html">Vote</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="about">
+                <h2>About SecureVote</h2>
+                <p>Welcome to SecureVote, your trusted online voting system. Our mission is to provide a secure, transparent, and easy-to-use platform for conducting online elections, making democracy more accessible to everyone.</p>
+
+                <h3>Our Purpose</h3>
+                <p>SecureVote is designed to ensure the integrity and accuracy of the voting process. We leverage cutting-edge technology to make voting accessible from anywhere, while maintaining the highest standards of security and privacy.</p>
+
+                <h3>Our Team</h3>
+                <div class="team">
+                    <div class="member">
+                        <label for="imageUpload1" class="image-container">
+                            <input type="file" id="imageUpload1" accept="image/*" onchange="previewImage(this)">
+                            
+                        </label>
+                        <div class="member-info" id="memberInfo1">
+                            <h4>Sadikshya Uprety</h4>
+                            <p>Project Lead</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="member">
+                        <label for="imageUpload2" class="image-container">
+                            <input type="file" id="imageUpload2" accept="image/*" onchange="previewImage(this)">
+                           
+                        </label>
+                        <div class="member-info" id="memberInfo2">
+                            <h4>Sujata Chudal</h4>
+                            <p>Lead Developer</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="member">
+                        <label for="imageUpload3" class="image-container">
+                            <input type="file" id="imageUpload3" accept="image/*" onchange="previewImage(this)">
+                            
+                        </label>
+                        <div class="member-info" id="memberInfo3">
+                            <h4>Sumitra Sherma</h4>
+                            <p>UI/UX Designer</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="member">
+                        <label for="imageUpload4" class="image-container">
+                            <input type="file" id="imageUpload4" accept="image/*" onchange="previewImage(this)">
+                           
+                        </label>
+                        <div class="member-info" id="memberInfo4">
+                            <h4>Manisha Budachhetri</h4>
+                            <p>Security Expert</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="member">
+                        <label for="imageUpload5" class="image-container">
+                            <input type="file" id="imageUpload5" accept="image/*" onchange="previewImage(this)">
+                           
+                        </label>
+                        <div class="member-info" id="memberInfo5">
+                            <h4>Manalisa Rajbanshi</h4>
+                            <p>Marketing Specialist</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Key Features</h3>
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-lock"></i>
+                        <h3>Secure Voting</h3>
+                        <p>End-to-end encryption ensures the integrity of your vote.</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-globe"></i>
+                        <h3>Accessible Anywhere</h3>
+                        <p>Vote from the comfort of your home or on-the-go.</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-chart-bar"></i>
+                        <h3>Real-time Results</h3>
+                        <p>View election results as they come in.</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Voter Anonymity</h3>
+                        <p>Your identity is protected throughout the voting process.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <section class="cta">
+            <div class="container">
+                <h2>Ready to Experience Secure Online Voting?</h2>
+                <a href="register.html" class="cta-button">Get Started Now</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 SecureVote Online Voting System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            function previewImage(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    var memberId = input.id.replace('imageUpload', '');
+
+                    reader.onload = function (e) {
+                        var memberInfo = document.getElementById('memberInfo' + memberId);
+                        var img = document.createElement('img');
+                        img.setAttribute('src', e.target.result);
+                       
+                        img.style.width = '100%';
+                        img.style.height = 'auto';
+                        img.style.marginBottom = '10px';
+                        img.style.borderBottom = '2px solid var(--primary-color)';
+
+                        var existingImg = memberInfo.querySelector('img');
+                        if (existingImg) {
+                            memberInfo.removeChild(existingImg);
+                        }
+
+                        memberInfo.appendChild(img);
+
+                        localStorage.setItem('memberImage' + memberId, e.target.result);
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+
+                   
+                    input.style.display = 'none';
+                }
+            }
+
+           
+            for (var i = 1; i <= 5; i++) {
+                var fileInput = document.getElementById('imageUpload' + i);
+                fileInput.addEventListener('change', function() {
+                    previewImage(this);
+                });
+
+                
+                var savedImage = localStorage.getItem('memberImage' + i);
+                if (savedImage) {
+                    var memberInfo = document.getElementById('memberInfo' + i);
+                    var img = document.createElement('img');
+                    img.setAttribute('src', savedImage);
+                    img.setAttribute('alt', 'Uploaded Image');
+                    img.style.width = '100%';
+                    img.style.height = 'auto';
+                    img.style.marginBottom = '10px';
+                    img.style.borderBottom = '2px solid var(--primary-color)';
+
+                    var existingImg = memberInfo.querySelector('img');
+                    if (existingImg) {
+                        memberInfo.removeChild(existingImg);
+                    }
+
+                    memberInfo.appendChild(img);
+
+                    
+                    fileInput.style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

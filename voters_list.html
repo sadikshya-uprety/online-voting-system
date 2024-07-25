@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - Voter Database</title>
+    <link rel="icon" type="image/x-icon" href="/html-css course/online voling sysrem/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #2c3e50;
+            --background-color: #f4f7f9;
+            --text-color: #333;
+            --border-color: #e0e0e0;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        header h1 i {
+            margin-right: 15px;
+        }
+
+        main {
+            padding: 2rem 0;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        h2 i {
+            margin-right: 15px;
+            color: var(--primary-color);
+        }
+
+        .search-form {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"], input[type="password"] {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        button i {
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background-color: #3a7bc8;
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--secondary-color);
+            color: white;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tr:hover {
+            background-color: #e9ecef;
+        }
+
+        .student-photo {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn-view, .btn-delete {
+            padding: 0.5rem 1rem;
+            margin-right: 0.5rem;
+            font-size: 0.875rem;
+            border-radius: 20px;
+        }
+
+        .btn-view {
+            background-color: var(--success-color);
+        }
+
+        .btn-delete {
+            background-color: var(--danger-color);
+        }
+
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #loginForm {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        #loginForm input {
+            margin-bottom: 1rem;
+        }
+
+        #adminPanel {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .search-form {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-shield-alt"></i> Admin Portal - Voter Database</h1>
+        </div>
+    </header>
+    <main class="container">
+        <div id="loginCard" class="card">
+            <h2><i class="fas fa-lock"></i> Admin Login</h2>
+            <form id="loginForm">
+                <input type="password" id="adminPassword" placeholder="Enter admin password" required>
+                <button type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
+            </form>
+        </div>
+        
+        <div id="adminPanel">
+            <section class="card">
+                <h2><i class="fas fa-search"></i> Records Finder</h2>
+                <form id="searchForm" class="search-form">
+                    <input type="text" id="searchById" name="searchById" placeholder="Enter Student ID">
+                    <button type="submit"><i class="fas fa-search"></i> Search</button>
+                </form>
+            </section>
+            
+            <section class="card">
+                <h2><i class="fas fa-list"></i> Voter Records</h2>
+                <div class="table-container">
+                    <table id="votersTable">
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Phone No</th>
+                                <th>Citizenship No</th>
+                                <th>User ID</th>
+                                <th>Photo</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Table body will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Online Voting System | Designed by Your Name</p>
+        </div>
+    </footer>
+
+    <script>
+        const voters = [
+            
+            {id: '123456', firstName: 'Sadikshya', lastName: 'Uprety', address: 'Birtamode-2, Jhapa', phone: '+1234567890', citizenship: 'ABC123456', userId: 'Sadikshyauprety123', photo: 'https://via.placeholder.com/50'},
+            {id: '234567', firstName: 'Nitu', lastName: 'Sharma', address: 'Kathmandu-5, Nepal', phone: '+9876543210', citizenship: 'XYZ789012', userId: 'nitusharma234', photo: 'https://via.placeholder.com/50'},
+            {id: '345678', firstName: 'Priya', lastName: 'karki', address: 'Pokhara-3, Nepal', phone: '+1122334455', citizenship: 'PQR345678', userId: 'priyakarki345', photo: 'https://via.placeholder.com/50'}
+            
+        ];
+
+        function populateTable(data) {
+            const tableBody = document.querySelector('#votersTable tbody');
+            tableBody.innerHTML = '';
+            data.forEach(voter => {
+                const row = `
+                    <tr>
+                        <td>${voter.id}</td>
+                        <td>${voter.firstName} ${voter.lastName}</td>
+                        <td>${voter.address}</td>
+                        <td>${voter.phone}</td>
+                        <td>${voter.citizenship}</td>
+                        <td>${voter.userId}</td>
+                        <td><img src="${voter.photo}" alt="${voter.firstName} ${voter.lastName}" class="student-photo"></td>
+                        <td>
+                            <button class="btn-view" onclick="viewVoter('${voter.id}')"><i class="fas fa-eye"></i> View</button>
+                            <button class="btn-delete" onclick="deleteVoter('${voter.id}')"><i class="fas fa-trash"></i> Delete</button>
+                        </td>
+                    </tr>
+                `;
+                tableBody.insertAdjacentHTML('beforeend', row);
+            });
+        }
+
+        function viewVoter(id) {
+            alert(`Viewing voter with ID: ${id}`);
+            // Implement view functionality
+        }
+
+        function deleteVoter(id) {
+            if (confirm(`Are you sure you want to delete voter with ID: ${id}?`)) {
+                console.log(`Deleting voter with ID: ${id}`);
+                const updatedVoters = voters.filter(voter => voter.id !== id);
+                populateTable(updatedVoters);
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('adminPassword').value;
+            if (password === 'admin123') {
+                document.getElementById('loginCard').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                populateTable(voters);
+            } else {
+                alert('Incorrect password. Please try again.');
+            }
+        });
+
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const searchId = document.getElementById('searchById').value;
+            const filteredVoters = voters.filter(voter => voter.id.includes(searchId));
+            populateTable(filteredVoters);
+        });
+    </script>
+</body>
+</html>
